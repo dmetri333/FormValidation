@@ -109,7 +109,7 @@ When a field fails any one of its checks, we run the default validation response
 **WAIT!!!** - You don't need to change all your markup to use FromValidation.  
 Everyone likes to create their own form markup and having to change it, just to you use a validation plugin, is a pain. The option exists to create your own validation responses. 
 
-For example, bootstrap form markup has diffrent class names and requires the class to be on its parent.
+For example, bootstrap form markup has different validation class names and requires the class to be added to the element's parent.
 This example shows you how to create that validation response:
 ```JavaScript
 $("form").formValidation("addResponse", "bootstrap", function(element, fieldResponses) { 
@@ -127,5 +127,5 @@ How to use it:
 ```HTML
 <input type="text" name="" value="" required data-notempty="" data-response="bootstrap" />
 ```
-You can create as many diffrent responses as you like, and use any one you like on each field.
+You can create as many different responses as you like, and use any one you like on each field.
 
