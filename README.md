@@ -88,7 +88,7 @@ Adding defaultselect attribute will check if the feild value does not equal the 
 
 #### checked
 
-Adding checked attribute will check if the checkbox has beend checked off. No attribute value is required.
+Adding the data-checked attribute will check if the checkbox has been checked off. No attribute value is required.
 ```HTML
 <input type="checkbox" name="" value="" required data-checked="" />
 ```
