@@ -1,6 +1,6 @@
 # FormValidation
 
-FormValidation is a lightweight JavaScript form validation jQuery plugin.
+FormValidation is a lightweight form validation library. Used to help validate your client side html forms. It is written in JavaScript and packaged as a jQuery plugin.
 
 ## Download
 
@@ -84,6 +84,13 @@ Adding defaultselect attribute will check if the feild value does not equal the 
   <option value="1">Some Option</option>
   <option value="2">Some Other Option</option>
 </select>
+```
+
+#### checked
+
+Adding checked attribute will check if the checkbox has beend checked off. No attribute value is required.
+```HTML
+<input type="checkbox" name="" value="" required data-checked="" />
 ```
 
 #### Custom (Make your own)
