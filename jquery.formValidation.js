@@ -14,32 +14,6 @@
 			return self.runValidation();
 		});
 	}
-
-	
-	FormValidation.prototype.runValidation = function() {
-		var issue = false;
-		self.$element.find("input[required], textarea[required], select[required]").each(function() {
-			$this = $(this);
-			var fieldResponses = [];
-			var data = $this.data();
-			$.each(data, function(methodName, options) {
-				if (self.options.validationMethods[methodName] && methodName != "response") {
-					var response = self.options.validationMethods[methodName]($this, methodName, options);
-					fieldResponses[methodName] = response;
-					if (!response) {
-						issue = true;
-					}
-				}
-			});
-
-			var responseName = $this.data("response") ? $this.data("response") : "addInvalidClass";
-			if (self.options.responseMethods[responseName]) {
-				self.options.responseMethods[responseName]($this, fieldResponses);
-			}
-		});
-
-		return !issue;
-	};
 	
 	FormValidation.DEFAULTS = {
 
@@ -83,6 +57,31 @@
 
 	};
 
+	FormValidation.prototype.runValidation = function() {
+		var issue = false;
+		self.$element.find("input[required], textarea[required], select[required]").each(function() {
+			$this = $(this);
+			var fieldResponses = [];
+			var data = $this.data();
+			$.each(data, function(methodName, options) {
+				if (self.options.validationMethods[methodName] && methodName != "response") {
+					var response = self.options.validationMethods[methodName]($this, methodName, options);
+					fieldResponses[methodName] = response;
+					if (!response) {
+						issue = true;
+					}
+				}
+			});
+
+			var responseName = $this.data("response") ? $this.data("response") : "addInvalidClass";
+			if (self.options.responseMethods[responseName]) {
+				self.options.responseMethods[responseName]($this, fieldResponses);
+			}
+		});
+
+		return !issue;
+	};
+	
 	FormValidation.prototype.addValidation = function(methodName, method) {
 		self.options.validationMethods[methodName] = method;
 	};
@@ -94,14 +93,19 @@
 	function Plugin(option, methodName, method) {
 		return this.each(function() {
 			var $this = $(this);
-			var data = $this.data('formValidation');
-			var options = $.extend({}, FormValidation.DEFAULTS, $this.data(), typeof option == 'object' && option);
+			var data = $this.data("formValidation");
+			var options = $.extend({}, FormValidation.DEFAULTS, $this.data(), typeof option == "object" && option);
 
 			if (!data)
-				$this.data('formValidation', (data = new FormValidation(this, options)));
+				$this.data("formValidation", (data = new FormValidation(this, options)));
 			
-			if (typeof option == 'string')
-				data[option](methodName, method);
+			if (typeof option == "string") {
+				if (option == "runValidation") {
+					$this.data('result', data[option](methodName, method));
+				} else {
+					data[option](methodName, method);
+				}
+			}
 		});
 	}
 
