@@ -4,7 +4,9 @@
  * Licensed under Apache License (https://github.com/dmetri333/FormValidation/blob/master/LICENSE)
  */
 (function($) {
-
+	
+	var self;
+	
 	var FormValidation = function(element, options) {
 		self = this;
 		self.options = options;
@@ -13,13 +15,13 @@
 		self.$element.on(self.options.eventType, function(event) {
 			return self.runValidation();
 		});
-	}
+	};
 	
 	FormValidation.DEFAULTS = {
 
 		validationMethods : {
 			notempty : function(element, methodName, options) {
-				return ($.trim(element.val()) != '');
+				return ($.trim(element.val()) !== '');
 			},
 			isnumber : function(element, methodName, options) {
 				return /^\d+$/.test(element.val());
