@@ -27,7 +27,7 @@
 				return (element.val().length >= options);
 			},
 			email : function(element, methodName, options) {
-				return (element.val().search(/^([a-zA-Z0-9_.\-+])+@([a-zA-Z0-9_.\-])+\.([a-zA-Z])+([a-zA-Z])+/) != -1);
+				return (element.val().search(/^([a-zA-Z0-9_.\-+'])+@([a-zA-Z0-9_.\-])+\.([a-zA-Z])+([a-zA-Z])+/) != -1);
 			},
 			match : function(element, methodName, options) {
 				return (element.val() == $(options).val());
