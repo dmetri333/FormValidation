@@ -136,3 +136,14 @@ How to use it:
 ```
 You can create as many different responses as you like, and use any one you like on each field.
 
+## Inline Validation
+If you want to validate your form but wish to run some other javascript before submitting or you do not want to submit the form at all, you can run the validation method. Form Validation will run all the checks, perform the validation responses and add a result data attribute to the form. The result data attribute will contain a true/false value representing the pass/fail validation result.
+```JavaScript
+$("form").submit(function(event) {
+	var $form = $(this);
+	$form.formValidation("runValidation")
+	if (!$form.data("result")) {
+		return false;
+	}
+});
+```
