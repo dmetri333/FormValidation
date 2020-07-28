@@ -1,0 +1,28 @@
+{
+  "name": "form-validation",
+  "version": "2.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "webpack",
+    "watch-js": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmetri333/FormValidation.git"
+  },
+  "author": "Demetri Mihalakakos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmetri333/FormValidation/issues"
+  },
+  "homepage": "https://github.com/dmetri333/FormValidation",
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.44.0",
+    "webpack-cli": "^3.3.12"
+  }
+}

@@ -4,7 +4,7 @@ FormValidation is a lightweight form validation library. Used to help validate y
 
 ## Download
 
-Download the latest jquery.formValidation.js or jquery.formValidation.min.js.
+Download the latest formValidation.js from the dist.
 Include it in your source after jQuery.
 
 ## Example
@@ -16,9 +16,7 @@ Include it in your source after jQuery.
 </form>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $("form").formValidation();
-  });
+    new FormValidation('form');
 </script>
 ```
 Set the ```novalidate``` attribute on your ```form``` to prevent the browser's default validation.
@@ -32,7 +30,7 @@ Add the ```required``` attribute to your ```<input>```, ```<select>```, and ```<
 
 Enable form validation via JavaScript:
 ```JavaScript
-$("form").formValidation();
+new FormValidation('form');
 ```
 
 ## Options
@@ -100,7 +98,8 @@ Use the method ```addValidation``` to extend the basic functionality.
 
 In the below example we create "maxlength" validation. The function needs to return "true" if the feilds input passes and "false" if the input value fails the test.
 ```JavaScript
-$("form").formValidation("addValidation", "maxlength", function(element, methodName, options) {
+var formValidation = new FormValidation('form');
+formValidation.addValidation('maxlength', function(element, methodName, options) {
   return (element.val().length <= options);
 });
 ```
@@ -119,12 +118,13 @@ Everyone likes to create their own form markup and having to change it, just to 
 For example, bootstrap form markup has different validation class names and requires the class to be added to the element's parent.
 This example shows you how to create that validation response:
 ```JavaScript
-$("form").formValidation("addResponse", "bootstrap", function(element, fieldResponses) { 
-	$parent = element.parents(".form-group");
-	$parent.removeClass("has-error");
+var formValidation = new FormValidation('form');
+formValidation.addResponse('bootstrap', function(element, fieldResponses) { 
+	$parent = element.parents('.form-group');
+	$parent.removeClass('has-error');
 	for (var method in fieldResponses) {
 		if (!fieldResponses[method]) {
-			$parent.addClass("has-error");
+			$parent.addClass('has-error');
 			break;
 		}	   
 	}
@@ -139,11 +139,8 @@ You can create as many different responses as you like, and use any one you like
 ## Inline Validation
 If you want to validate your form but wish to run some other javascript before submitting or you do not want to submit the form at all, you can run the validation method. Form Validation will run all the checks, perform the validation responses and add a result data attribute to the form. The result data attribute will contain a true/false value representing the pass/fail validation result.
 ```JavaScript
-$("form").submit(function(event) {
-	var $form = $(this);
-	$form.formValidation("runValidation")
-	if (!$form.data("result")) {
-		return false;
-	}
-});
+var formValidation = new FormValidation('form');
+if (!formValidation.runValidation()) {
+	return false;
+}
 ```
