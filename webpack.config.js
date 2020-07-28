@@ -4,7 +4,7 @@ module.exports = {
   mode: 'production',
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist/js'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'formValidation.js'
   },
   module: {
