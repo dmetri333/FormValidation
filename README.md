@@ -119,14 +119,14 @@ This example shows you how to create that validation response:
 ```JavaScript
 var formValidation = new FormValidation(document.querySelector('form'));
 formValidation.addResponse('bootstrap', function(element, fieldResponses) { 
-	let parent = element.parentNode;
-	parent.classList.remove('has-error');
-	for (let method in fieldResponses) {
-		if (!fieldResponses[method]) {
-			parent.classList.add('has-error');
-			break;
-		}	   
-	}
+  let parent = element.parentNode;
+  parent.classList.remove('has-error');
+  for (let method in fieldResponses) {
+    if (!fieldResponses[method]) {
+	  parent.classList.add('has-error');
+	  break;
+	}	   
+  }
 });
 ```
 How to use it:
