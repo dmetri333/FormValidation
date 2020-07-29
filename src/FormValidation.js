@@ -6,40 +6,47 @@
 class FormValidation {
 
 	constructor(element, options) {
-		this.$element = $(element);
-		this.options = $.extend(true, {}, FormValidation.DEFAULTS, typeof options == 'object' && options);
+		this.element = element;
+		this.options = this.extend({}, FormValidation.DEFAULTS, typeof options == 'object' && options);
 		
 		this.bindEvents();
 	}
 
 	bindEvents() {
-		this.$element.on(this.options.eventType, () => {
-			return this.runValidation();
-		});
+		if (this.options.eventType == 'submit') {
+			this.element.addEventListener(this.options.eventType, (event) => {
+				if (!this.runValidation()) {
+					event.preventDefault();
+					return false;
+				}
+			});	
+		}
 	}
 
 	runValidation() {
-		var that = this;
-		var issue = false;
-		this.$element.find('input[required], textarea[required], select[required]').each(function() {
-			$this = $(this);
-			var fieldResponses = [];
-			var data = $this.data();
-			$.each(data, function(methodName, options) {
-				if (that.options.validationMethods[methodName] && methodName != 'response') {
-					var response = that.options.validationMethods[methodName]($this, methodName, options);
+		let issue = false;
+		let inputs = this.element.querySelectorAll('[required]');
+		
+		for (let i = 0; i < inputs.length; i++) {
+			let fieldResponses = [];
+			let data = inputs[i].dataset;
+			for (let methodName in data) {
+				let options = data[methodName];
+
+				if (this.options.validationMethods[methodName] && methodName != 'response') {
+					let response = this.options.validationMethods[methodName](inputs[i], methodName, options);
 					fieldResponses[methodName] = response;
 					if (!response) {
 						issue = true;
 					}
 				}
-			});
-
-			var responseName = $this.data('response') ? $this.data('response') : 'addInvalidClass';
-			if (that.options.responseMethods[responseName]) {
-				that.options.responseMethods[responseName]($this, fieldResponses);
 			}
-		});
+
+			let responseName = data.response ? data.response : 'addInvalidClass';
+			if (this.options.responseMethods[responseName]) {
+				this.options.responseMethods[responseName](inputs[i], fieldResponses);
+			}
+		}
 
 		return !issue;
 	}
@@ -52,40 +59,66 @@ class FormValidation {
 		this.options.responseMethods[methodName] = method;
 	}
 
+	extend(out) {
+		out = out || {};
+	  
+		for (let i = 1; i < arguments.length; i++) {
+			let obj = arguments[i];
+	  
+			if (!obj)
+				continue;
+	  
+			for (let key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					if (typeof obj[key] === 'object') {
+						if (obj[key] instanceof Array == true)
+							out[key] = obj[key].slice(0);
+						else
+							out[key] = this.extend(out[key], obj[key]);
+					} else {
+						out[key] = obj[key];
+					}
+				}
+			}
+		}
+	  
+		return out;
+	}
+	
 }
 
 FormValidation.DEFAULTS = {
 
 	validationMethods : {
 		notempty : function(element, methodName, options) {
-			return ($.trim(element.val()) !== '');
+			return (element.value.trim() !== '');
 		},
 		isnumber : function(element, methodName, options) {
-			return /^\d+$/.test(element.val());
+			return /^\d+$/.test(element.value);
 		},
 		minlength : function(element, methodName, options) {
-			return (element.val().length >= options);
+			return (element.value.length >= options);
 		},
 		email : function(element, methodName, options) {
-			return (element.val().search(/^([a-zA-Z0-9_.\-+'])+@([a-zA-Z0-9_.\-])+\.([a-zA-Z])+([a-zA-Z])+/) != -1);
+			return (element.value.search(/^([a-zA-Z0-9_.\-+'])+@([a-zA-Z0-9_.\-])+\.([a-zA-Z])+([a-zA-Z])+/) != -1);
 		},
 		match : function(element, methodName, options) {
-			return (element.val() == $(options).val());
+			return (element.value == document.querySelector(options).value);
 		},
 		defaultselect : function(element, methodName, options) {
-			return (element.val() != options);
+			return (element.value != options);
 		},
 		checked : function(element, methodName, options) {
-			return element.is(':checked');
+			return element.checked;
 		}
 	},
 
 	responseMethods : {
 		addInvalidClass : function(element, fieldResponses) {
-			element.removeClass('invalid');
+			element.classList.remove('invalid');
 			for (var method in fieldResponses) {
 				if (!fieldResponses[method]) {
-					element.addClass('invalid');
+					element.classList.add('invalid');
 					break;
 				}
 			}
@@ -93,5 +126,4 @@ FormValidation.DEFAULTS = {
 	},
 	
 	eventType: 'submit'
-
 };

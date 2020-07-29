@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <script src="../src/FormValidation.js"></script>
+       
+
+        <style>
+            label {
+                display: block;
+            }
+
+            .form-group { 
+                display: block;
+                margin-bottom: 20px;
+            }
+
+            .form-group.has-error input {
+                border: 1px solid magenta;
+            }
+            
+            .invalid {
+                border: 1px solid red;
+            }
+        </style>
+    </head>
+    <body>
+        <form novalidate>
+            <div class="form-group">
+                <label>Nothing</label>
+                <input type="text" name="nothing" value="" />
+            </div>
+            
+            <div class="form-group">
+                <label>Not Empty</label>
+                <input type="text" name="not-empty" value="" required data-notempty="true" />
+            </div>
+            
+            <div class="form-group">
+                <label>Is Number</label>
+                <input type="text" name="is-number" value="" required data-isnumber="true" />
+            </div>
+            
+            <div class="form-group">
+                <label>min length</label>
+                <input type="text" name="min-length" value="" required data-minlength="8" />
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" name="email" value="" required data-empty="true" data-email="true" />
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password1" value="" id="password1" required data-notempty="true" />
+                <br />
+                <input type="password" name="password2" value="" required data-match="#password1"/>
+            </div>
+            
+            <div class="form-group">
+                <label>Default Select</label>
+                <select name="defaultselect" value="" required data-defaultselect="-1">
+                    <option value="-1">Default</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label><input type="Checkbox" name="Checked" value="" required data-checked="true" /> Checked</label>
+            </div>
+
+            <div class="form-group">
+                <label>Textarea (Not Empty)</label>
+                <textarea name="textarea" required data-notempty="true"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Custom (max length)</label>
+                <input type="text" name="max-length" value="" required data-maxlength="8" />
+            </div>
+
+            <div class="form-group">
+                <label>Custom Response (Not Empty)</label>
+                <input type="text" name="not-empty" value="" required data-notempty="true" data-response="bootstrap" />
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>    
+        </form>
+
+        <script>
+            let formValidation = new FormValidation(document.querySelector('form'));
+            formValidation.addValidation('maxlength', function(element, methodName, options) {
+                return (element.value.length <= options);
+            });
+
+            formValidation.addResponse('bootstrap', function(element, fieldResponses) { 
+                let parent = element.parentNode;
+                parent.classList.remove('has-error');
+                for (let method in fieldResponses) {
+                    if (!fieldResponses[method]) {
+                        parent.classList.add('has-error');
+                        break;
+                    }	   
+                }
+            });
+        </script>
+    </body>
+</html>
