@@ -5,8 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-js": "webpack",
-    "watch-js": "webpack --watch"
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
@@ -21,8 +20,9 @@
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
-    "babel-loader": "^8.1.0",
-    "webpack": "^4.44.0",
-    "webpack-cli": "^3.3.12"
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.2"
   }
 }
