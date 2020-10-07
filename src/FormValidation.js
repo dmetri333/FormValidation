@@ -13,7 +13,7 @@ class FormValidation {
 	}
 
 	bindEvents() {
-		if (this.options.eventType == 'submit') {
+		if (this.element && this.options.eventType == 'submit') {
 			this.element.addEventListener(this.options.eventType, (event) => {
 				if (!this.runValidation()) {
 					event.preventDefault();
@@ -25,7 +25,7 @@ class FormValidation {
 
 	runValidation() {
 		let issue = false;
-		let inputs = this.element.querySelectorAll('[required]');
+		let inputs = this.element ? this.element.querySelectorAll('[required]') : [];
 		
 		for (let i = 0; i < inputs.length; i++) {
 			let fieldResponses = [];
