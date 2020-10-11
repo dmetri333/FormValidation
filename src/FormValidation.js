@@ -127,3 +127,5 @@ FormValidation.DEFAULTS = {
 	
 	eventType: 'submit'
 };
+
+export default FormValidation;
